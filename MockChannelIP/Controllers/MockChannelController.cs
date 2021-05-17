@@ -31,7 +31,7 @@ namespace MockChannelIP.Controllers
                 account = new CloudStorageAccount(new StorageCredentials(azureStoragAccount, azureStorageSecret), true);
                 tableClient = account.CreateCloudTableClient();
                 botOperationLogTable = tableClient.GetTableReference(ConfigurationManager.AppSettings["TableName"]);
-                botOperationLogTable.CreateIfNotExistsAsync();
+                botOperationLogTable.CreateIfNotExists();
             }
            
         }

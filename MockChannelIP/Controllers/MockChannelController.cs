@@ -30,8 +30,12 @@ namespace MockChannelIP.Controllers
             {
                 account = new CloudStorageAccount(new StorageCredentials(azureStoragAccount, azureStorageSecret), true);
                 tableClient = account.CreateCloudTableClient();
-                botOperationLogTable = tableClient.GetTableReference(ConfigurationManager.AppSettings["TableName"]);
-                botOperationLogTable.CreateIfNotExists();
+                try {
+                    botOperationLogTable = tableClient.GetTableReference(ConfigurationManager.AppSettings["TableName"]);
+                    botOperationLogTable.CreateIfNotExists();
+                } catch(Exception e) {
+                    System.Diagnostics.Trace.TraceError("Exception calling from azure storage table" + e.Message);
+                }
             }
            
         }
@@ -53,7 +57,7 @@ namespace MockChannelIP.Controllers
             }
             else 
             {
-                try { await StoreResponse(conversationId, activityId + "Resp", content, DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"), true).ConfigureAwait(false); }
+                try { await StoreResponse(conversationId, activityId + "Resp", content, activity.Timestamp.Value.DateTime.ToString("yyyy-MM-dd HH:mm:ss.fff"), true).ConfigureAwait(false); }
                 catch (Exception e)
                 {
                     return Request.CreateResponse(HttpStatusCode.InternalServerError);
@@ -113,7 +117,7 @@ namespace MockChannelIP.Controllers
             try
             {
                 TableOperation operation = TableOperation.Insert(respActivityEntity);
-                await botOperationLogTable.ExecuteAsync(operation).ConfigureAwait(false);
+                await botOperationLogTable.ExecuteAsync(operation).ConfigureAwait(true);
                 return true;
             }
             catch (Exception e)

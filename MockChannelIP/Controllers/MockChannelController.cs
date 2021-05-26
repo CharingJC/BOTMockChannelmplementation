@@ -53,7 +53,7 @@ namespace MockChannelIP.Controllers
             }
             else 
             {
-                try { await StoreResponse(conversationId, activityId + "Resp", content, activity.Timestamp.Value.DateTime.ToString("yyyy-MM-dd HH:mm:ss.fff"), true).ConfigureAwait(false); }
+                try { await StoreResponse(conversationId, activityId + "Resp", content, DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"), true).ConfigureAwait(false); }
                 catch (Exception e)
                 {
                     return Request.CreateResponse(HttpStatusCode.InternalServerError);

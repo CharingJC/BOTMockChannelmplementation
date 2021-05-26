@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP app to Azure Web App - botmockchannel202105
+name: Build and deploy ASP app to Azure Web App - Load-testing-a-Bot
 
 on:
   push:
@@ -51,7 +51,7 @@ jobs:
       id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'botmockchannel202105'
+        app-name: 'Load-testing-a-Bot'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_6d75ea8074724a069dcdce2b14d4221a }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_a591c1f110f24264beb527b7707f5bca }}
         package: .
